@@ -15,10 +15,13 @@ The data is split into predictors (X) and the target variable (y). Standard scal
 
 To address the class imbalance (i.e., anomalies are rare), the Synthetic Minority Over-sampling Technique (SMOTE) is used to oversample the minority class (anomalies) in the training set, ensuring that the model learns from a balanced dataset. Model Training and Evaluation: Several classification models are trained and evaluated, including:
 
-Random Forest Classifier: A robust model for handling imbalanced data with a balanced class weight. Logistic Regression, Decision Trees, Gradient Boosting, SVM, KNN, and XGBoost: Additional models are evaluated for comparison. For each model, performance is evaluated using classification metrics such as accuracy, precision, ROC-AUC score, and confusion matrix. Hyperparameter tuning is performed using Grid Search to optimize the Random Forest model, achieving a higher ROC-AUC score.
+Model Training
+1) Two algorithms used: KNN Classifier and Random Forest.
+2) The corresponding hyper parameters are stored in model.yaml
+3) Using neuro-mf package, the best model giving the best scores with the given parameters are chosen and the model is stored as in the artifact folder as model.pkl
 
-Model Selection:
-
-Random Forest (RF) is selected as the final model due to its high precision and robust performance across metrics. XGBoost is also considered for its superior AUC score, but Random Forest is preferred for its reliability in making accurate positive predictions. Model Deployment:
+Model Evaluation
+The score of the model present in the S3 bucket is matched against the model trained currently. If the change in score is above the threshold mentioned in schema file, i.e, if the current model has better score than the model in S3 bucket and the difference is above the threshold, then evaluation status is set to True. The current model will be now pushed to the S3 bucket in the next stage.
+If there is no model in the S3, then the current model will be pushed into it, provided it is above the trained model threshold score.
 
 The best-performing model is saved using the pickle library, allowing for easy deployment and future inference. Summary of Results Best Model: Random Forest Classifier (RF) Precision: RF outperforms others slightly in terms of precision, making it more reliable for detecting true positives (anomalies). ROC-AUC: XGBoost achieved a slightly higher AUC, but RF still provides excellent discriminatory power. Conclusion: RF is chosen for its precision and overall performance in predicting anomalies. Deployment The trained Random Forest model is saved into a file (anomaly_detection_model.pkl) using joblib for deployment. This allows the model to be easily loaded and used for making predictions on new, unseen data.
