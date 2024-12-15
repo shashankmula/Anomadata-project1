@@ -1,0 +1,24 @@
+ipykernel
+openpyxl
+pandas
+pymongo
+numpy
+matplotlib
+plotly
+seaborn
+scipy
+scikit-learn 
+imblearn
+xgboost
+python-dotenv
+dill
+PyYAML
+evidently==0.2.8
+neuro-mf
+boto3
+mypy-boto3-s3
+botocore
+fastapi
+uvicorn
+jinja2
+-e .
